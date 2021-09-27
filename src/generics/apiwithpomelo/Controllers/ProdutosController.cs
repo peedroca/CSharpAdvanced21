@@ -7,17 +7,17 @@ namespace apiwithpomelo.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ClientesController : ControllerBase
+    public class ProdutosController : ControllerBase
     {
-        private readonly IClienteService _service;
+        private readonly IProdutoService _service;
 
-        public ClientesController(IClienteService service)
+        public ProdutosController(IProdutoService service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Cliente>> Get()
+        public ActionResult<IEnumerable<Produto>> Get()
         {
             try
             {
@@ -30,11 +30,11 @@ namespace apiwithpomelo.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Cliente cliente) 
+        public IActionResult Create([FromBody] Produto produto) 
         {
             try
             {
-                return Created($"Cliente/{cliente.Id}", _service.Create(cliente));
+                return Created($"Produto/{produto.Id}", _service.Create(produto));
             }
             catch (System.Exception ex)
             {
@@ -43,11 +43,11 @@ namespace apiwithpomelo.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Cliente cliente) 
+        public IActionResult Update([FromBody] Produto produto) 
         {
             try
             {
-                return Ok(_service.Update(cliente));
+                return Ok(_service.Update(produto));
             }
             catch (System.Exception ex)
             {
@@ -74,8 +74,8 @@ namespace apiwithpomelo.Controllers
         {
             try
             {
-                var cliente = _service.Get(id);
-                return Ok(cliente);
+                var produto = _service.Get(id);
+                return Ok(produto);
             }
             catch (System.Exception ex)
             {

@@ -7,11 +7,11 @@ using apiwithpomelo.Repositories;
 
 namespace apiwithpomelo.Services
 {
-    public class ClienteService
+    public class ClienteService : IClienteService
     {
-        private readonly IRepository<TbCliente> _repo;
+        private readonly IClienteRepository _repo;
 
-        public ClienteService(IRepository<TbCliente> repo)
+        public ClienteService(IClienteRepository repo)
         {
             _repo = repo;
         }
@@ -47,22 +47,13 @@ namespace apiwithpomelo.Services
 
         public IEnumerable<Cliente> GetAll()
         {
-            return _repo.GetAll()?
-                .Select(entity => new Cliente()
-                {
-                    CPF = entity.DsCpf,
-                    Email = entity.DsEmail,
-                    Endereco = entity.DsEndereco,
-                    Nascimento = entity.DtNascimento,
-                    Nome = entity.NmCliente,
-                    Telefone = entity.DsTelefone,
-                    Id = entity.IdCliente
-                });
+            return _repo.GetAll().Select(s => (Cliente)s);
         }
 
         public void Delete(int id)
         {
-            Console.WriteLine(id);
+            if (id <= 0)
+                throw new ArgumentException("A identificação do cliente é obrigatória.");
 
             var entity = _repo.Get(id);
 
@@ -70,6 +61,19 @@ namespace apiwithpomelo.Services
                 throw new ArgumentException("Cliente não encontrado.");
 
             _repo.Delete(entity);
+        }
+
+        public Cliente Get(int id)
+        {
+            if (id <= 0)
+                throw new ArgumentException("A identificação do cliente é obrigatória.");
+
+            var entity = _repo.Get(id);
+
+            if (entity == null || entity.IdCliente <= 0)
+                throw new ArgumentException("Cliente não encontrado.");
+
+            return entity;
         }
     }
 }
