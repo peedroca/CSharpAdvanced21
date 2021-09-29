@@ -7,7 +7,7 @@ using apiwithpomelo.Repositories;
 
 namespace apiwithpomelo.Services
 {
-    public class ClienteService : IClienteService
+    public class ClienteService : IClienteService, IDisposable
     {
         private readonly IClienteRepository _repo;
 
@@ -26,7 +26,9 @@ namespace apiwithpomelo.Services
             cliente.Id = 0;
 
             TbCliente entity = cliente;
+            
             _repo.Add(entity);
+            _repo.Commit();
 
             cliente.Id = entity.IdCliente;
             return cliente;
@@ -74,6 +76,11 @@ namespace apiwithpomelo.Services
                 throw new ArgumentException("Cliente não encontrado.");
 
             return entity;
+        }
+
+        public void Dispose()
+        {
+            _repo.Dispose();
         }
     }
 }

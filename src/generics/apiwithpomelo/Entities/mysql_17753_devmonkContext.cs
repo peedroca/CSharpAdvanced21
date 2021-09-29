@@ -19,7 +19,7 @@ namespace apiwithpomelo.Entities
 
         public virtual DbSet<TbCliente> TbClientes { get; set; }
         public virtual DbSet<TbProduto> TbProdutos { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TbCliente>(entity =>

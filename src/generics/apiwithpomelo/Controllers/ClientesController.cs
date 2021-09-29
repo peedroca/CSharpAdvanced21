@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using apiwithpomelo.Entities;
 using apiwithpomelo.Models;
+using apiwithpomelo.Repositories;
 using apiwithpomelo.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +24,7 @@ namespace apiwithpomelo.Controllers
         {
             try
             {
-                return Ok(_service.GetAll());
+                return _service.GetAll().ToList();            
             }
             catch (System.Exception ex)
             {
@@ -34,7 +37,10 @@ namespace apiwithpomelo.Controllers
         {
             try
             {
-                return Created($"Cliente/{cliente.Id}", _service.Create(cliente));
+                using (_service)
+                {
+                    return Created($"Cliente/{cliente.Id}", _service.Create(cliente));
+                }
             }
             catch (System.Exception ex)
             {
@@ -70,12 +76,11 @@ namespace apiwithpomelo.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id) 
+        public ActionResult<Cliente> Get(int id) 
         {
             try
             {
-                var cliente = _service.Get(id);
-                return Ok(cliente);
+                return _service.Get(id);
             }
             catch (System.Exception ex)
             {
