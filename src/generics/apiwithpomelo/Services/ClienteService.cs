@@ -26,7 +26,7 @@ namespace apiwithpomelo.Services
             cliente.Id = 0;
 
             TbCliente entity = cliente;
-            
+
             _repo.Add(entity);
             _repo.Commit();
 

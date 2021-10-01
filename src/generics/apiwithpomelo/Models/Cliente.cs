@@ -1,9 +1,8 @@
 using System;
-using apiwithpomelo.Entities;
 
 namespace apiwithpomelo.Models
 {
-    public class Cliente 
+    public partial class Cliente 
     {
         public int Id { get; set; }
         public string Nome { get; set; }
@@ -12,33 +11,5 @@ namespace apiwithpomelo.Models
         public string CPF { get; set; }
         public DateTime? Nascimento { get; set; }
         public string Endereco { get; set; }
-
-        public static implicit operator TbCliente(Cliente cliente)
-        {
-            return new TbCliente()
-            {
-                IdCliente = cliente.Id,
-                NmCliente = cliente.Nome,
-                DsEmail = cliente.Email,
-                DsCpf = cliente.CPF,
-                DsEndereco = cliente.Endereco,
-                DsTelefone = cliente.Telefone,
-                DtNascimento = cliente.Nascimento
-            };
-        }
-
-        public static implicit operator Cliente(TbCliente cliente)
-        {
-            return new Cliente()
-            {
-                CPF = cliente.DsCpf,
-                Email = cliente.DsEmail,
-                Endereco = cliente.DsEndereco,
-                Nascimento = cliente.DtNascimento,
-                Nome = cliente.NmCliente,
-                Telefone = cliente.DsTelefone,
-                Id = cliente.IdCliente
-            };;
-        }
     }
 }
